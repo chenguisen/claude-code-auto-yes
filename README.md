@@ -3,8 +3,6 @@
 Automatically approve Claude Code permission dialogs by monitoring a screen region
 for "Yes / No" buttons and clicking Yes when detected.
 
-<img src="docs/screenshot.png" alt="Screenshot" width="520">
-
 ## How It Works
 
 1. Pick a screen region around the Claude Code permission dialog
