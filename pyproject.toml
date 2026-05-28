@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "claude-code-auto-yes"
+version = "1.0.0"
+description = "Automatically approve Claude Code permission dialogs"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+keywords = ["claude", "automation", "ocr", "permission"]
+classifiers = [
+    "Environment :: X11 Applications :: Qt",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Desktop Environment :: Screen Capture",
+]
+
+dependencies = [
+    "PySide6>=6.5.0",
+    "mss>=9.0.0",
+    "opencv-python-headless>=4.8.0",
+    "numpy>=1.24.0",
+    "pytesseract>=0.3.10",
+    "Pillow>=10.0.0",
+    "pyautogui>=0.9.54",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourname/claude-code-auto-yes"
+Issues = "https://github.com/yourname/claude-code-auto-yes/issues"
+
+[project.scripts]
+claude-code-auto-yes = "src.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["src*"]
