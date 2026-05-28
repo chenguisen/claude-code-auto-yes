@@ -1,7 +1,10 @@
 # Claude Code Auto Yes
 
-Automatically approve Claude Code permission dialogs by monitoring a screen region
-for "Yes / No" buttons and clicking Yes when detected.
+Claude Code 频繁弹出 `Allow bash`、`Allow file operations` 等权限确认对话框，
+每个都必须手动点击 **Yes** 才能继续。在长时间或批处理任务中，这会严重打断工作流。
+
+这个工具通过 **OCR 实时监测屏幕区域**，自动检测并点击 Yes 按钮，
+让你不用守在电脑前频繁点击确认。
 
 ## How It Works
 
