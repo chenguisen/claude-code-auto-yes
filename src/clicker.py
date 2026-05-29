@@ -89,20 +89,18 @@ def _click_pyautogui(x: int, y: int, *, restore_cursor: bool) -> None:
 
 
 def move_and_enter(x: int, y: int) -> str:
-    """Move mouse to (x, y) and press Enter, preserving window focus."""
+    """Move mouse to (x, y), click to activate, then press Enter."""
     if shutil.which("xdotool") and os.environ.get("DISPLAY"):
-        # Save focused window so Enter goes to the right place
         orig = subprocess.run(
             ["xdotool", "getactivewindow"],
             capture_output=True, text=True,
         ).stdout.strip()
 
         subprocess.run(
-            ["xdotool", "mousemove", str(x), str(y)],
+            ["xdotool", "mousemove", str(x), str(y), "click", "1"],
             check=True, capture_output=True,
         )
 
-        # Restore focus before pressing Enter
         if orig and orig.isdigit():
             subprocess.run(
                 ["xdotool", "windowactivate", orig],
