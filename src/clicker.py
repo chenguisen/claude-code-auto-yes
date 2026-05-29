@@ -89,7 +89,7 @@ def _click_pyautogui(x: int, y: int, *, restore_cursor: bool) -> None:
 
 
 def move_and_enter(x: int, y: int) -> str:
-    """Move mouse to (x, y), click to activate, then press Enter."""
+    """Move mouse to Yes (visual), then send 1+Enter to select and confirm."""
     if shutil.which("xdotool") and os.environ.get("DISPLAY"):
         orig = subprocess.run(
             ["xdotool", "getactivewindow"],
@@ -97,7 +97,7 @@ def move_and_enter(x: int, y: int) -> str:
         ).stdout.strip()
 
         subprocess.run(
-            ["xdotool", "mousemove", str(x), str(y), "click", "1"],
+            ["xdotool", "mousemove", str(x), str(y)],
             check=True, capture_output=True,
         )
 
@@ -107,8 +107,9 @@ def move_and_enter(x: int, y: int) -> str:
                 check=False, capture_output=True,
             )
 
+        # Select option 1 (Yes) and confirm
         subprocess.run(
-            ["xdotool", "key", "Return"],
+            ["xdotool", "key", "1", "Return"],
             check=True, capture_output=True,
         )
         return "xdotool_move_enter"
