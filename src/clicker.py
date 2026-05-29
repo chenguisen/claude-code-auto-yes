@@ -107,9 +107,9 @@ def move_and_enter(x: int, y: int) -> str:
                 check=False, capture_output=True,
             )
 
-        # Select option 1 (Yes) and confirm
+        # Press 1 to select Yes
         subprocess.run(
-            ["xdotool", "key", "1", "Return"],
+            ["xdotool", "key", "1"],
             check=True, capture_output=True,
         )
         return "xdotool_move_enter"
