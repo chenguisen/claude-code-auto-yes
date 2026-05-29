@@ -18,10 +18,10 @@ for _tc in ("/usr/bin/tesseract", "/bin/tesseract"):
         break
 
 YES_LINE = re.compile(
-    r"\d+\s*(?:yes|ves|yos|yea|y(?:e)?s?)\b|\d+\s*[yv][eo][sx]?\b",
+    r"\d+\.?\s*(?:yes|ves|yos|yea|y(?:e)?s?)\b|\d+\.?\s*[yv][eo][sx]?\b",
     re.IGNORECASE,
 )
-NO_LINE = re.compile(r"\d+\s*no\b", re.IGNORECASE)
+NO_LINE = re.compile(r"\d+\.?\s*no\b", re.IGNORECASE)
 DIALOG_FOOTER = re.compile(
     r"tell\s+claude\s+what\s+to\s+do|esc\s+to\s+cancel",
     re.IGNORECASE,
