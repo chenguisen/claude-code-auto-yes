@@ -141,6 +141,12 @@ class MainWindow(QMainWindow):
         )
         opt_layout.addWidget(self._keyboard_cb)
 
+        self._move_enter_cb = QCheckBox("Move + Enter (move mouse to Yes, press Enter)")
+        self._move_enter_cb.setToolTip(
+            "Move mouse to Yes position and press Enter (for terminal dialogs)"
+        )
+        opt_layout.addWidget(self._move_enter_cb)
+
         self._restore_cb = QCheckBox("Restore cursor after click")
         self._restore_cb.setChecked(True)
         opt_layout.addWidget(self._restore_cb)
@@ -218,6 +224,7 @@ class MainWindow(QMainWindow):
         self._dry_run_cb.setEnabled(not running)
         self._verbose_cb.setEnabled(not running)
         self._keyboard_cb.setEnabled(not running)
+        self._move_enter_cb.setEnabled(not running)
         self._restore_cb.setEnabled(not running)
 
     def _on_start(self) -> None:
@@ -230,6 +237,7 @@ class MainWindow(QMainWindow):
         dry_run = self._dry_run_cb.isChecked()
         verbose = self._verbose_cb.isChecked()
         keyboard_only = self._keyboard_cb.isChecked()
+        move_enter = self._move_enter_cb.isChecked()
         restore_cursor = self._restore_cb.isChecked()
         region = self._region
         stop_event = self._stop_event
@@ -240,6 +248,8 @@ class MainWindow(QMainWindow):
             tags.append("dry-run")
         if keyboard_only:
             tags.append("keyboard")
+        if move_enter:
+            tags.append("move+enter")
         tag = f" [{', '.join(tags)}]" if tags else ""
         self.log(
             f"Monitoring {region.width}x{region.height}"
@@ -256,6 +266,7 @@ class MainWindow(QMainWindow):
                     stop_event=stop_event,
                     on_message=signals.log_signal.emit,
                     keyboard_only=keyboard_only,
+                    move_enter=move_enter,
                     restore_cursor=restore_cursor,
                 )
             except Exception as exc:

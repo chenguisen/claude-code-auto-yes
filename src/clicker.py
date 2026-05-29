@@ -88,6 +88,21 @@ def _click_pyautogui(x: int, y: int, *, restore_cursor: bool) -> None:
         pyautogui.moveTo(orig.x, orig.y, duration=0)
 
 
+def move_and_enter(x: int, y: int) -> str:
+    """Move mouse to (x, y) and press Enter."""
+    if shutil.which("xdotool") and os.environ.get("DISPLAY"):
+        subprocess.run(
+            ["xdotool", "mousemove", str(x), str(y)],
+            check=True, capture_output=True,
+        )
+        subprocess.run(
+            ["xdotool", "key", "Return"],
+            check=True, capture_output=True,
+        )
+        return "xdotool_move_enter"
+    raise ClickError("move+enter requires xdotool")
+
+
 def press_yes_hotkey() -> str:
     if shutil.which("xdotool") and os.environ.get("DISPLAY"):
         subprocess.run(

@@ -9,7 +9,7 @@ import time
 from collections.abc import Callable
 
 from src.capture import capture_region
-from src.clicker import ClickError, _backend_name, click_absolute, press_yes_hotkey
+from src.clicker import ClickError, _backend_name, click_absolute, move_and_enter, press_yes_hotkey
 from src.detector import find_yes_click_point
 from src.region_picker import (
     Region,
@@ -82,6 +82,7 @@ def run_monitor(
     stop_event: threading.Event | None = None,
     on_message: Callable[[str], None] | None = None,
     keyboard_only: bool = False,
+    move_enter: bool = False,
     restore_cursor: bool = True,
 ) -> None:
     def log(msg: str) -> None:
@@ -168,7 +169,14 @@ def run_monitor(
                 continue
 
             clicked = False
-            if not keyboard_only:
+            if move_enter:
+                try:
+                    used = move_and_enter(abs_x, abs_y)
+                    log(f"OK: move+enter ({abs_x},{abs_y}) via {used}")
+                    clicked = True
+                except Exception as exc:
+                    log(f"move+enter failed: {exc}")
+            elif not keyboard_only:
                 try:
                     used = click_absolute(
                         abs_x, abs_y, restore_cursor=restore_cursor
@@ -180,7 +188,7 @@ def run_monitor(
                 except Exception as exc:
                     log(f"click error: {exc}")
 
-            if keyboard_only or not clicked:
+            if not clicked:
                 try:
                     used = press_yes_hotkey()
                     log(f"OK: key 1 via {used}")
