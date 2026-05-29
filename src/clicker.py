@@ -89,27 +89,16 @@ def _click_pyautogui(x: int, y: int, *, restore_cursor: bool) -> None:
 
 
 def move_and_enter(x: int, y: int) -> str:
-    """Move mouse to Yes (visual), then send 1+Enter to select and confirm."""
+    """Move mouse to Yes and click (focus terminal), then Enter to confirm."""
     if shutil.which("xdotool") and os.environ.get("DISPLAY"):
-        orig = subprocess.run(
-            ["xdotool", "getactivewindow"],
-            capture_output=True, text=True,
-        ).stdout.strip()
-
+        # Click focuses the terminal window where the dialog is;
+        # Yes is already selected (shown by ">"), so Enter confirms it
         subprocess.run(
-            ["xdotool", "mousemove", str(x), str(y)],
+            ["xdotool", "mousemove", str(x), str(y), "click", "1"],
             check=True, capture_output=True,
         )
-
-        if orig and orig.isdigit():
-            subprocess.run(
-                ["xdotool", "windowactivate", orig],
-                check=False, capture_output=True,
-            )
-
-        # Press 1 to select Yes
         subprocess.run(
-            ["xdotool", "key", "1"],
+            ["xdotool", "key", "Return"],
             check=True, capture_output=True,
         )
         return "xdotool_move_enter"
